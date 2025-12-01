@@ -1,0 +1,76 @@
+---
+title: "How It Works"
+description: "Pipeline operativa di MemoryModel"
+---
+
+## How It Works
+
+MemoryModel è una architettura cognitiva autonoma che organizza attivamente le memorie, seleziona strategie di retrieval in base all’intento e si auto‑ottimizza nel tempo.
+
+<Steps>
+<Step title="Input Stream">
+La query (anche multimodale) entra nel sistema insieme al contesto rilevante.
+</Step>
+
+<Step title="Intent Classification">
+L’intento viene classificato analizzando obiettivo semantico e contesto.
+</Step>
+
+<Step title="Semantic Profiling">
+Si costruisce un profilo di interesse dell’utente per disambiguare richieste vaghe in open domain.
+</Step>
+
+<Step title="Dynamic Strategy Selection">
+La strategia di retrieval viene selezionata dinamicamente in base all’intento:
+
+- Factual: matching esatto per date ed entità specifiche.
+- Conceptual: similarità semantica per idee astratte.
+- Hybrid: combinazione di segnali per query complesse e contestuali.
+</Step>
+
+<Step title="Centroid Calculation">
+Per aumentare la precisione, vengono calcolati centroidi che combinano profilo semantico utente, rilevanza specifica della query e segnali temporali/contestuali.
+</Step>
+
+<Step title="Episodic Continuity">
+Gli eventi storici e le interazioni sono correttamente sequenziati nel tempo per mantenere la continuità episodica.
+</Step>
+
+<Step title="Retrieval & Ranking">
+I risultati vengono recuperati e ordinati in modo deterministico rispetto ai segnali disponibili.
+</Step>
+
+<Step title="Active Consolidation & Self‑Adaptation">
+Gli eventi a breve termine vengono consolidati in conoscenza semantica a lungo termine; l’esito delle interazioni guida l’auto‑adattamento delle strategie.
+</Step>
+</Steps>
+
+<Frame>
+  <img src="/images/hero-light.png" alt="Placeholder: schema How It Works" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+### Data Structure
+
+MemoryModel struttura i dati come il cervello umano:
+
+- Episodic Memory: eventi grezzi e dati puntuali.
+- Semantic Memory: concetti, pattern e relazioni logiche in un grafo di conoscenza.
+- Procedural Memory: comportamenti e strategie di retrieval apprese.
+
+### Continuous Maintenance
+
+Il sistema esegue cicli continui di osservazione, analisi ed esecuzione per consolidare la memoria e affinare la comprensione dei dati.
+
+**Esempi di Retrieval**
+
+```javascript
+retrieve({ mode: 'factual', query: 'Acme Inc invoice on 2024-03-05' })
+```
+
+```javascript
+retrieve({ mode: 'conceptual', query: 'best practices for onboarding' })
+```
+
+```javascript
+retrieve({ mode: 'hybrid', query: 'customer issues in Q3 with sentiment' })
+```
