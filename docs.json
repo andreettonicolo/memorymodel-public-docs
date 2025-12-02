@@ -36,13 +36,6 @@
           "core-concepts/update-memory",
           "core-concepts/delete-memory"
         ]
-      },
-      {
-        "group": "Use case",
-        "pages": [
-          "essentials/settings",
-          "essentials/navigation"
-        ]
       }
         ]
       },
@@ -50,18 +43,27 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Authentication",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/authentication"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Add memories",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/add-memories"
+            ]
+          },
+          {
+            "group": "Search memories",
+            "pages": [
+              "api-reference/search-memories"
+            ]
+          },
+          {
+            "group": "List memories",
+            "pages": [
+              "api-reference/list-memories"
             ]
           }
         ]

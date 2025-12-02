@@ -3,41 +3,85 @@ title: "Quickstart"
 description: "Start with MemoryModel in guided steps"
 ---
 
-## Quick Start
+The big advantage of Memory Model isn’t just the architecture’s scalability and retrieval accuracy—it’s how deeply you can customize it.
+
+In this quick start you will:
+
+- Create a workspace cluster
+- Define the memory nodes you need
+- Insert data into your cluster
+- Retrieve data with factual, conceptual, and hybrid strategies
+- Plan customization for your use case
 
 <Steps>
-<Step title="Contact Sales Team">
+<Step title="Contact the Sales Team">
 Reach out to our team to get started and access onboarding.
 
 <a href="https://memorymodel.dev/#contact">https://memorymodel.dev/#contact</a>
 </Step>
 
 <Step title="Log in to the Dashboard">
-Access the dashboard at `app.memorymodel.dev` and sign in.
+Access the dashboard at <a href="https://app.memorymodel.dev">app.memorymodel.dev</a> and sign in.
 </Step>
 
 <Step title="Create a Cluster in Your Workspace">
-Create a new cluster in your workspace.
+Create a new cluster in your workspace. Choose a clear name and, if applicable, region and retention.
 
 <Frame>
   <img src="/images/hero-light.png" alt="Placeholder: Create Cluster UI" style={{ borderRadius: '0.5rem' }} />
-</Frame>
+  </Frame>
 </Step>
 
-<Step title="Create the Memory Nodes You Need">
-Add memory nodes. They will save and structure your information.
+<Step title="Define the Memory Nodes You Need">
+Add the memory nodes that best fit your data and retrieval goals. Nodes structure information and make it available to the right strategy when you query.
 
 <Frame>
   <img src="/images/hero-dark.png" alt="Placeholder: Create Memory Nodes UI" style={{ borderRadius: '0.5rem' }} />
-</Frame>
+  </Frame>
 </Step>
 
-<Step title="Insert Data in Your Cluster">
-Insert data into your cluster.
+<Step title="Create API Key">
+Generate an API key from Dashboard → Settings → API Keys.
+
+Copy it and store it securely (e.g., as an environment variable). Use it in API/SDK calls with `Authorization: Bearer <YOUR_API_KEY>`.
+</Step>
+
+<Step title="Install SDKs or Use cURL">
+Install the SDK or call the API directly.
+
+**Python (pip)**
+
+```bash
+pip install memorymodel
+```
+
+**JavaScript (npm)**
+
+```bash
+npm install @memorymodel/sdk
+```
+
+**cURL (Bearer auth)**
+
+```bash
+curl -X POST "https://api.memorymodel.dev/v1/retrieve" \
+  -H "Authorization: Bearer $MEMORYMODEL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mode": "factual",
+    "query": "Acme Inc invoice on 2024-03-05"
+  }'
+```
+</Step>
+
+<Step title="Insert Data into Your Cluster">
+Insert your first items into the cluster using your preferred ingestion path.
+
+Examples: CSV import, API calls from your backend, or streaming logs.
 </Step>
 
 <Step title="Retrieve Data from Your Cluster">
-Retrieve data from your cluster.
+Query the cluster with the strategy that matches intent.
 
 **Factual Retrieval**
 
@@ -57,4 +101,5 @@ retrieve({ mode: 'conceptual', query: 'best practices for onboarding' })
 retrieve({ mode: 'hybrid', query: 'customer issues in Q3 with sentiment' })
 ```
 </Step>
+
 </Steps>
