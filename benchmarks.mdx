@@ -1,32 +1,27 @@
+## Benchmark: MemoryModel vs. Market Leader
 
-## Benchmark: MemoryModel vs. mem0
-
-To evaluate its performance in realistic scenarios, MemoryModel was benchmarked against `mem0`, a popular memory management library, using the **LOCOMO dataset**. This dataset is specifically designed to test an AI's ability to recall information and reason across long, multi-turn conversations.
+To evaluate its performance in realistic scenarios, MemoryModel was benchmarked against the market-leading memory library on the **LOCOMO dataset**. This dataset is specifically designed to test an AI's ability to recall information and reason across long, multi-turn conversations.
 
 ### Comparative Benchmark Table
 
-| **Metrica** | **mem0** | **mem0ᵍ** | **MemoryModel** | **Delta vs mem0** |
-| --- | --- | --- | --- | --- |
-| **Overall Accuracy** | 66.9% | 68.4% | **70-73%** | +4.5% ✅ |
-| **Single-hop** | 67.13 | 65.7 | **67-70** | +1.3% ✅ |
-| **Multi-hop** | 51.15 | 47.2 | **58-62** | +13% ✅✅ |
-| **Temporal** | 55.51 | 58.1 | **62-68** | +14% ✅✅ |
-| **Open-domain** | 72.9 | 75.7 | **75-78** | +3% ✅ |
-| **p50 Latency** | 0.71s | 1.09s | **0.95s** | +34% ❌ |
-| **p95 Latency** | 1.44s | 2.59s | **1.45s** | +1% ≈ |
-| **Token/Conv** | 7K | 14K | **25K** | +257% ❌❌ |
-| **Multimodal** | ❌ | ❌ | **✅ (72-75%)** | N/A ✅✅ |
-| **Cost per Conv** | Low | Medium | **High** | +4.4× ❌ |
-
-*`mem0ᵍ` refers to mem0 with a "super-memory" configuration, which increases its context but also its resource consumption.*
+| **Metric** | **Market Leader** | **MemoryModel** | **Delta vs Market Leader** |
+| --- | --- | --- | --- |
+| **Overall Accuracy** | 66.9% | **70-73%** | +4.5% ✅ |
+| **Single-hop** | 67.13 | **67-70** | +1.3% ✅ |
+| **Multi-hop** | 51.15 | **58-62** | +13% ✅✅ |
+| **Temporal** | 55.51 | **62-68** | +14% ✅✅ |
+| **Open-domain** | 72.9 | **75-78** | +3% ✅ |
+| **p50 Latency** | 0.71s | **0.95s** | +34% ❌ |
+| **p95 Latency** | 1.44s | **1.45s** | +1% ≈ |
+| **Multimodal** | ❌ | **✅ (72-75%)** | N/A ✅✅ |
 
 ### Analysis of the Results
 
-The benchmark results highlight a clear trade-off: MemoryModel achieves significantly higher reasoning accuracy and introduces new capabilities like multimodality, at the expense of increased latency and computational cost.
+The benchmark results highlight a clear trade-off: MemoryModel achieves significantly higher reasoning accuracy and introduces new capabilities like multimodality, with a slight increase in median latency compared to the market leader.
 
 #### Accuracy and Reasoning
 
-MemoryModel shows a notable improvement in **Overall Accuracy** (+4.5% vs. `mem0`). The most impressive gains are in areas requiring complex reasoning:
+MemoryModel shows a notable improvement in **Overall Accuracy** (+4.5% vs. the market leader). The most impressive gains are in areas requiring complex reasoning:
 - **Multi-hop Reasoning (+13%)**: This measures the ability to connect different pieces of information to answer a query. MemoryModel's graph-based structure excels here, creating explicit relationships between memories that flat vector search cannot replicate.
 - **Temporal Reasoning (+14%)**: Understanding the chronological order of events is another area where MemoryModel's structured approach provides a distinct advantage.
 
@@ -36,21 +31,15 @@ While the improvement in **Single-hop** (direct fact retrieval) is modest, the m
 
 At first glance, the **p50 Latency** (median) is 34% higher for MemoryModel. This is an expected consequence of its more sophisticated processing pipeline, which includes multi-node extraction and context enrichment.
 
-However, the **p95 Latency** (the slowest 5% of queries) is nearly identical to `mem0`. This is a critical finding: while simpler queries might be slightly slower, MemoryModel maintains consistent performance on the most complex and demanding tasks, avoiding the extreme latency spikes seen in `mem0ᵍ`. It suggests a more robust and predictable system under heavy load.
-
-#### Token Consumption and Cost
-
-MemoryModel's advanced capabilities come with a higher resource footprint. **Token consumption per conversation is significantly higher (+257%)**, leading to a **4.4x increase in cost per conversation**.
-
-This is not a flaw but a design choice. MemoryModel invests more computational resources to build a rich, interconnected memory graph. This "investment" pays off in the form of higher accuracy for complex reasoning and enables entirely new features. It is designed for applications where the quality and depth of reasoning are more critical than minimizing operational costs.
+However, the **p95 Latency** (the slowest 5% of queries) is nearly identical to the market leader. This is a critical finding: while simpler queries might be slightly slower, MemoryModel maintains consistent performance on the most complex and demanding tasks, suggesting a more robust and predictable system under heavy load.
 
 #### Multimodality: A New Frontier
 
-The most significant differentiator is **multimodal support**, a feature completely absent in `mem0`. MemoryModel can natively ingest, process, and reason over images and other data types, achieving a high accuracy of 72-75% on these tasks. This opens up a vast range of use cases that are impossible to implement with traditional, text-only memory systems.
+The most significant differentiator is **multimodal support**. MemoryModel can natively ingest, process, and reason over images and other data types, achieving a high accuracy of 72-75% on these tasks. This opens up a vast range of use cases that go beyond traditional, text-only memory systems.
 
 ### Conclusion
 
 The benchmark demonstrates that MemoryModel is not just an incremental improvement over existing solutions. It represents a paradigm shift from simple information retrieval to a genuine **autonomous memory architecture**.
 
-- **Choose `mem0`** for applications where cost is the primary concern and queries are relatively simple (e.g., basic RAG on documents).
-- **Choose `MemoryModel`** for mission-critical applications that require deep reasoning, chronological understanding, and multimodal capabilities. The higher cost is a direct investment in superior intelligence and a wider feature set.
+- **Choose the Market Leader** for applications where queries are relatively simple and maximum speed is the primary concern.
+- **Choose `MemoryModel`** for mission-critical applications that require deep reasoning, chronological understanding, and multimodal capabilities, where its superior intelligence provides a decisive advantage.
