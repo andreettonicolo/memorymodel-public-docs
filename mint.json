@@ -1,4 +1,36 @@
 {
   "name": "MemoryModel documentation",
-  "dashboard": "https://app.memorymodel.dev"
+  "dashboard": "https://app.memorymodel.dev",
+  "colors": {
+    "primary": "#a855f7",
+    "light": "#C084FC",
+    "dark": "#6D28D9"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": [
+    {
+      "group": "Getting started",
+      "pages": [
+        "index",
+        "quickstart"
+      ]
+    },
+    {
+      "group": "Comparisons",
+      "pages": [
+        "memorymodel-vs-rag",
+        "benchmarks"
+      ]
+    },
+    {
+      "group": "Core concepts",
+      "pages": [
+        "core-concepts/how-it-works",
+        "core-concepts/add-memory",
+        "core-concepts/search-memory",
+        "core-concepts/update-memory",
+        "core-concepts/delete-memory"
+      ]
+    }
+  ]
 }
