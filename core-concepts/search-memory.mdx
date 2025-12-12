@@ -1,16 +1,23 @@
 ---
 title: "Search Memory"
-description: "Placeholder: cercare memorie nel cluster"
+description: "Search flow and intent-driven retrieval"
 ---
 
-## Search Memory
-
-Placeholder per la ricerca di memorie.
-
 <Frame>
-  <img src="/images/hero-dark.png" alt="Placeholder: Search Memory UI" style={{ borderRadius: '0.5rem' }} />
+  <img
+    src="/images/diagrams/adaptive_retrival_system.webp"
+    alt="Adaptive retrieval system"
+    style={{ borderRadius: '0.5rem', width: '100%', backgroundColor: '#ffffff', padding: '0.5rem' }}
+    onError={(e) => {
+      e.currentTarget.src = '/images/hero-dark.png';
+    }}
+  />
 </Frame>
 
-<Info>
-  Placeholder: esempi di query e strategie di retrieval saranno aggiunti.
-</Info>
+### Search Flow Overview
+
+- Intent detection identifies query type (direct match, entity-based, semantic)
+- Adaptive vector search with relevance scoring for semantic intent
+- Mode decision selects broad (exploratory) or narrow (precision) search
+- Result fusion combines exact, graph traversal, and semantic results
+- Deduplication and ranking produce the final ordered results

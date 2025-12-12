@@ -38,50 +38,10 @@
         ]
       }
         ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "Authentication",
-            "pages": [
-              "api-reference/authentication"
-            ]
-          },
-          {
-            "group": "Add memories",
-            "pages": [
-              "api-reference/add-memories"
-            ]
-          },
-          {
-            "group": "Search memories",
-            "pages": [
-              "api-reference/search-memories"
-            ]
-          },
-          {
-            "group": "List memories",
-            "pages": [
-              "api-reference/list-memories"
-            ]
-          }
-        ]
       }
     ],
     "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
+      "anchors": []
     }
   },
   "logo": {
@@ -92,13 +52,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:founders@memorymodel.dev"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.memorymodel.dev"
     }
   },
   "contextual": {
