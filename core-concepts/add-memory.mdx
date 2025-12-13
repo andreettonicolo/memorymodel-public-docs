@@ -2,9 +2,6 @@
 title: "Add Memory"
 description: "Add new memories to the cluster"
 ---
-
-## Add Memory
-
 ### Memory Ingestion
 
 <Frame>
@@ -29,3 +26,63 @@ Traditional systems embed raw text directly. MemoryModel applies bidirectional s
 
 - 40–60% improvement in retrieval relevance
 - Eliminates terminology mismatch (user says "AI", system finds "machine learning")
+
+### Ingest into the cluster
+
+#### Text ingest (API)
+
+```bash
+curl -X POST "https://api.memorymodel.dev/ingest-text" \
+  -H "Content-Type: application/json" \
+  -H "cluster-api-key: YOUR_API_KEY_HERE" \
+  -H "memory-user-id: user_123" \
+  -d '{
+    "source": {
+      "type": "text",
+      "content": "My favorite color is blue and I love sci-fi movies like Blade Runner."
+    }
+  }'
+```
+
+<Tip>
+  Include `memory-user-id` only if the cluster is configured for multi‑user ingestion. If not, use a simple identifier like `user_123`.
+</Tip>
+
+**Response (text)**
+
+```json
+{
+  "status": "Accepted",
+  "jobId": "job_1700000000000_user_123"
+}
+```
+
+#### Image ingest (API)
+
+```bash
+curl -X POST "https://api.memorymodel.dev/ingest-image" \
+  -H "Content-Type: application/json" \
+  -H "x-memoris-project-key: YOUR_API_KEY_HERE" \
+  -H "x-end-user-id: user_123" \
+  -d '{
+    "imageData": "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+  }'
+```
+
+<Note>
+  For large images, ensure your client supports large payloads. The `imageData` field must be a valid Base64 string (with or without the data URI prefix).
+</Note>
+
+**Response (image)**
+
+```json
+{
+  "status": "Accepted",
+  "jobId": "img_job_1700000000000_user_123",
+  "previewUrl": "https://storage.googleapis.com/..."
+}
+```
+
+<Warning>
+  The `previewUrl` must point to a valid storage bucket and object. Invalid bucket names will return an error from the storage provider.
+</Warning>

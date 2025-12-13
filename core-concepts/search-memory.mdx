@@ -1,23 +1,93 @@
 ---
 title: "Search Memory"
-description: "Search flow and intent-driven retrieval"
+description: "How MemoryModel retrieves memories: modes, intent, ranking"
 ---
 
-<Frame>
-  <img
-    src="/images/diagrams/adaptive_retrival_system.webp"
-    alt="Adaptive retrieval system"
-    style={{ borderRadius: '0.5rem', width: '100%', backgroundColor: '#ffffff', padding: '0.5rem' }}
-    onError={(e) => {
-      e.currentTarget.src = '/images/hero-dark.png';
-    }}
-  />
-</Frame>
+### Overview
 
-### Search Flow Overview
+Search Memory selects the most relevant memories for the request’s intent. It is robust across heterogeneous data thanks to a pipeline designed to balance precision and coverage.
 
-- Intent detection identifies query type (direct match, entity-based, semantic)
-- Adaptive vector search with relevance scoring for semantic intent
-- Mode decision selects broad (exploratory) or narrow (precision) search
-- Result fusion combines exact, graph traversal, and semantic results
-- Deduplication and ranking produce the final ordered results
+- Key inputs: `mode` (factual, conceptual, hybrid), `query`, `cluster` context
+- Goal: maximize relevance and explainability with predictable latency
+- Output: ordered list of memories with scores and helpful metadata
+
+### Pipeline (first steps)
+
+1. Query normalization: cleaning, tokenization, language detection
+2. Bidirectional semantic enrichment:
+   - For the query: expand with synonyms, related terms, intent signals
+   - For memories: enrich content with implicit concepts useful for matching
+3. Embedding and matching: compute vectors and perform similarity search on optimized indexes
+4. Combined ranking: fuse scores (similarity, freshness, authority, usage signals)
+5. Post‑processing: deduplication, diversification, filters (cluster, tags, time)
+
+This first phase (normalization + enrichment) is key to avoiding search failures on different expressions of the same concept and to surfacing useful results even when the query is incomplete or ambiguous.
+
+### Search modes
+
+- Factual: prioritizes precise matches; ideal for IDs, dates, exact names
+- Conceptual: prioritizes concepts and themes; great for “best practices”, “ideas”, “trends”
+- Hybrid: blends factual and conceptual with adaptive weights; recommended default for general queries
+
+### Scoring and ranking
+
+- Vector similarity: semantic proximity between query and memory
+- Contextual boosting: freshness, source authority, usage signals, tags
+- Penalties: duplicates, weak content, low coherence
+- Explainability: reasons for the match available for UI and logging
+
+### Common filters
+
+- By cluster or workspace
+- By tags (e.g., `invoice`, `policy`)
+- By time window (e.g., last 90 days)
+
+### Intent examples and modes
+
+- "Acme invoice dated 2024‑03‑05" → `factual`
+- "Onboarding guidelines" → `conceptual`
+- "Customer issues in Q3 with sentiment" → `hybrid`
+
+### Related API
+
+For request and response examples, see `API: Search Memories` at `/api-reference/search-memories`.
+
+### Quick API example
+
+```bash
+curl -X POST "https://api.memorymodel.dev/search" \
+  -H "Content-Type: application/json" \
+  -H "x-memoris-project-key: YOUR_API_KEY_HERE" \
+  -H "x-end-user-id: user_123" \
+  -d '{
+    "query": "What movies does the user like?"
+  }'
+```
+
+<Tip>
+  Include `x-end-user-id` only if the cluster is configured for multi‑user ingestion. If not, use a simple identifier like `user_123`.
+</Tip>
+
+**Response**
+
+```json
+{
+  "data": [
+    {
+      "id": "mem_abc123",
+      "finalScore": 0.92,
+      "payload": {
+        "memory_type": "movie_preference",
+        "content": "I love sci-fi movies like Blade Runner.",
+        "movie_genre": "sci-fi",
+        "sentiment": "positive",
+        "mentioned_titles": ["Blade Runner"],
+        "user_id": "user_123",
+        "created_at": 1700000000000
+      },
+      "searchedWithNode": "node_preferences_01"
+    }
+  ]
+}
+```
+
