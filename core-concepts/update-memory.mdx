@@ -35,88 +35,44 @@ The retrieval engine uses a centroid-based distance metric to automatically swit
   d(q,c)
   ```
 
-   between the query embedding 
+    between the query embedding q and the nearest memory centroid c
 
-  ```
-  q
-  ```
+Low Distance (`d<δ`): Indicates high intent specificity. Triggers Specific Mode (Low k, strict similarity thresholds).
 
-   and the nearest memory centroid 
-
-  ```
-  c
-  ```
-
-  :
-  - **Low Distance (**
-
-    ```
-    d<δ
-    ```
-
-    **):** Indicates high intent specificity. Triggers **Specific Mode** (Low 
-
-    ```
-    k
-    ```
-
-    , strict similarity thresholds).
-  - **High Distance (**
-
-    ```
-    d>δ
-    ```
-
-    **):** Indicates exploratory intent. Triggers **Meta Mode** (High 
-
-    ```
-    k
-    ```
-
-    , broader semantic expansion).
+High Distance (`d>δ`): Indicates exploratory intent. Triggers Meta Mode (High k, broader semantic expansion).
 
 ## 2. Adaptive Hyperparameter Tuning (Closed-Loop Control)
 
-**Objective:** To optimize retrieval parameters (
+**Objective:** To optimize retrieval parameters (k, similarity thresholds) using control theory feedback loops, eliminating manual configuration.
 
-```
-k
-```
+The system treats retrieval quality as a dynamic control problem. It utilizes a **Lyapunov-stable controller** to adjust parameters based on operational telemetry.
 
-, similarity thresholds) using control theory feedback loops, eliminating manual configuration.
-
-The system treats retrieval quality as a dynamic control problem. It utilizes a **Lyapunov-stable controller** to adjust parameters based on operational telemetry.
-
-- **Feedback Mechanism:** The system monitors the **Retrieval-to-Utilization Ratio** (assessing which retrieved chunks were actually used by the LLM to generate the final response).
+- **Feedback Mechanism:** The system monitors the **Retrieval-to-Utilization Ratio** (assessing which retrieved chunks were actually used by the LLM to generate the final response).
 - **Control Logic:**
-  - **Telemetry Aggregation:** Performance metrics are aggregated over a sliding window (default: 24h).
-  - **Dampening Function:** If utilization metrics drift, the controller adjusts the similarity_threshold and expansion_factor using a dampening function to prevent system oscillation.
-  - **Hard Constraints:** The optimization is mathematically bounded. Regardless of the error signal, parameters are locked within safe operating ranges (e.g., 0.45 \<= similarity_threshold \<= 0.95) to guarantee service reliability.
+  - **Telemetry Aggregation:** Performance metrics are aggregated over a sliding window (default: 24h).
+  - **Dampening Function:** If utilization metrics drift, the controller adjusts the similarity_threshold and expansion_factor using a dampening function to prevent system oscillation.
+  - **Hard Constraints:** The optimization is mathematically bounded. Regardless of the error signal, parameters are locked within safe operating ranges (e.g., `0.45 <= similarity_threshold <= 0.95`) to guarantee service reliability.
 - **Convergence:**\
-  New projects typically reach an optimal, stable parameter configuration within **7-10 days** of production traffic.
+  New projects typically reach an optimal, stable parameter configuration within **7-10 days** of production traffic.
 
 ## 3. Semantic Pattern Recognition (Insight Generation)
 
-**Objective:** To synthesize new, searchable insight objects from cross-domain correlations in the raw memory stream.
+**Objective:** To synthesize new, searchable insight objects from cross-domain correlations in the raw memory stream.
 
 This worker functions as a background generative analysis layer. It scans the immutable log of user memories to identify latent behavioral patterns.
 
 - **Process Flow:**
-  1. **Temporal Aggregation:** The worker fetches memory objects within a specific moving window.
-  2. **Generative Analysis:** An LLM-based classifier analyzes the aggregate text to detect semantic correlations across different domains (e.g., correlating _Health Logs_ with _Shopping Patterns_).
-  3. **Confidence Gate:** A probabilistic filter evaluates the strength of the detected pattern. Insights with a confidence score 
-
-     ```
-     <0.70
-     ```
-
-      are discarded.
+  1. **Temporal Aggregation:** The worker fetches memory objects within a specific moving window.
+  2. **Generative Analysis:** An LLM-based classifier analyzes the aggregate text to detect semantic correlations across different domains (e.g., correlating _Health Logs_ with _Shopping Patterns_).
+  3. **Confidence Gate:** A probabilistic filter evaluates the strength of the detected pattern. Insights with a confidence score `<0.70` are discarded.
 - **Persistence:**\
-  Validated patterns are stored as "First-Class" memory objects with type: "insight". These are vectorized and indexed immediately, making the _pattern itself_ retrievable in future queries.
+  Validated patterns are stored as "First-Class" memory objects with type: "insight". These are vectorized and indexed immediately, making the _pattern itself_ retrievable in future queries.
 
 ### Temporal Normalization Strategy
 
-To prevent temporal hallucinations in synthesized insights, the system applies **Shift-Left Temporal Resolution**:
+To prevent temporal hallucinations in synthesized insights, the system applies **Shift-Left Temporal Resolution**:
 
-- **Absolute Timestamping:** All relative time references detected during analysis (e.g., "last week", "recently") are resolved to absolute **ISO 8601** intervals _before_ storage.
-- **Deterministic Indexing:** An insight regarding events from "last week" generated today is indexed with the specific date range (e.g., 2024-11-01/2024-11-07), ensuring temporal accuracy regardless of when the memory is retrieved in the future.
+- **Absolute Timestamping:** All relative time references detected during analysis (e.g., "last week", "recently") are resolved to absolute **ISO 8601** intervals _before_ storage.
+- **Deterministic Indexing:** An insight regarding events from "last week" generated today is indexed with the specific date range (e.g., 2024-11-01/2024-11-07), ensuring temporal accuracy regardless of when the memory is retrieved in the future.
+
+
