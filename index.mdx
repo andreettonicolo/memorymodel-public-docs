@@ -3,48 +3,51 @@ title: "Introduction"
 description: "Welcome in the MemoryModel introduction."
 ---
 
-## What is MemoryModel?
+# Introduction & Platform Overview
 
-Memory Model is the first autonomous memory architecture.
+## High-Level Definition
 
-It is a dynamic system that actively organizes memories, selects retrieval strategies based on intent, and self-optimizes over time.
+**Memory Model** is a fully managed **Adaptive Intelligence Platform** designed to solve context retention for LLM applications.\
+Unlike static vector databases that rely solely on similarity search, Memory Model operates as an active orchestration middleware. It combines a **Schema-Agnostic Storage Engine** with an **Adaptive Retrieval System** that autonomously manages data ingestion strategies, query routing, and parameter self-optimization.
 
-### Data Structure
+## Data Strategy & Ingestion
 
-Memory Model structures data exactly how the human brain does:
+### User-Defined Schemas
 
-- Episodic Memory: stores individual raw events and data points.
-- Semantic Memory: automatically extracts concepts, patterns, and logical relationships into a virtual knowledge graph.
-- Procedural Memory: learns behaviors and successful retrieval strategies.
+The platform utilizes a **Schema-Agnostic approach**. Instead of storing generic text chunks, it operates on **Specialized Memory Nodes**. Users define custom structures via the Management Console to capture specific attributes alongside unstructured data.
 
-### Query Logic
+### Event-Driven Ingestion Pipeline
 
-Memory Model does not treat every query the same, it analyzes the user's intent:
+The architecture employs an **asynchronous processing model**. Upon ingestion, memory nodes enter a processing queue to undergo a deterministic two-stage transformation before final storage:
 
-- Factual: uses exact matching for dates and specific entities.
-- Conceptual Search: uses semantic embedding similarity for abstract ideas.
-- Hybrid Strategy: uses multiple signals for complex, context-heavy queries.
+1. **Multi-Stage Semantic Enrichment:**\
+   The system applies **bidirectional semantic expansion**. It injects implicit context (themes, related concepts) into the node to maximize vector overlap, eliminating terminology mismatches during retrieval.
+2. **Shift-Left Temporal Resolution:**\
+   Relative time references (e.g., "next Friday") are resolved into absolute ISO 8601 timestamps. This creates deterministic indices, converting complex temporal reasoning into precise date-range lookups.
 
-### Search Precision
+### Virtual Knowledge Graph
 
-To solve the inaccuracy of standard vector search, Memory Model calculates mathematical centroids combining:
+Beyond storing isolated vectors, the architecture maintains a **logical graph structure**.\
+By analyzing shared entities and temporal proximity, the system links disparate memory nodes into a cohesive network. This topology allows the system to traverse relationships (e.g., connecting "Health" nodes to "Shopping" nodes) and generate **Synthesized Insights**—higher-order nodes representing behavioral patterns that would be invisible to standard similarity search.
 
-- The User’s Semantic Interest Profile.
-- Query-Specific Relevance.
-- Temporal/Contextual Signals.
+## Retrieval Logic
 
-### Maintenance
+The core differentiator is the **Adaptive Retrieval System**. The platform abandons "one-size-fits-all" searching in favor of **Intent-Based Routing**, classifying every query into one of four execution strategies:
 
-Memory Model is never static, but runs a continuous cycle of observations, analysis and execution to:
+1. **Direct Match Strategy:** Executes precise key-value lookups for specific identifiers (IDs, filenames), bypassing vector search for O(1) performance.
+2. **Entity Anchor Strategy:** Activated when the intent focuses on specific Named Entities, utilizing the **Knowledge Graph** to fetch content tied to a subject regardless of semantic phrasing.
+3. **Temporal Range Strategy:** Converts time-bound queries into deterministic date-range filters (leveraging the pre-resolved ISO 8601 timestamps).
+4. **Adaptive Vector Search (Semantic):** Handles abstract or conceptual queries. Uniquely, this strategy utilizes **Centroid Analysis** (measuring distance from the user's semantic center of mass) to dynamically select an operating mode:
+   - **META Mode:** Broad, exploratory search (High-k).
+   - **SPECIFIC Mode:** Narrow, precision-focused search (Low-k).
 
-- Actively consolidates short-term memory into long-term semantic knowledge.
-- Operates in the background to refine its understanding of the data.
+_Outputs from these strategies are aggregated via a _**_Fusion Layer_**_ responsible for deduplication and final ranking._
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
+## Continuous Optimization
+
+The platform replaces manual configuration with **Closed-Loop Optimization**.\
+Background processes, governed by **Control Theory principles**, continuously analyze retrieval telemetry (Precision/Recall). The system automatically adjusts similarity thresholds and ranking weights to adapt to evolving user patterns without human intervention.
+
+<Card title="Start here" icon="rocket" horizontal href="/quickstart">
   Follow our three step quickstart guide.
 </Card>

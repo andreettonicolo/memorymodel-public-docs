@@ -1,45 +1,40 @@
 ---
 title: "Add Memory"
-description: "Add new memories to the cluster"
+description: "Ingest unstructured data into the Memory Cluster."
 ---
-### Memory Ingestion
+
+## Operational Pipeline
+
+#### The ingestion API operates on an **asynchronous, event-driven model**.\
+Requests are validated and acknowledged immediately (202 Accepted), then offloaded to a background worker queue. The data undergoes a specific transformation sequence before becoming searchable:
+
+1. **Shift-Left Temporal Resolution:** The pipeline scans source.content for relative time references (e.g., "next Friday", "in three days"). These are resolved into absolute ISO 8601 timestamps _at the moment of ingestion_, creating a deterministic temporal index.
+2. **Semantic Enrichment:** The system applies bidirectional expansion, injecting implicit context (themes, synonyms) to maximize vector overlap.
+3. **Dual-Write Persistence:** Data is synchronously committed to both the Metadata Store and Vector Database.
+4. **Centroid Calibration:** Finally, the user's semantic centroid is recalculated to reflect the new memory distribution, influencing future adaptive search modes.
 
 <Frame>
-  <img src="/images/diagrams/memory_ingestion.webp" alt="Memory ingestion pipeline" style={{ borderRadius: '0.5rem', width: '100%', backgroundColor: '#ffffff', padding: '0.5rem' }} />
+  <img
+    src="/images/diagrams/memory_ingestion.webp"
+    alt="Memory ingestion pipeline"
+    style={{ borderRadius:"0.5rem",width:"100%",backgroundColor:"#ffffff",padding:"0.5rem" }}
+  />
 </Frame>
 
-#### Innovation: Multi-Stage Semantic Enrichment
+## Text ingest (API)
 
-Traditional systems embed raw text directly. MemoryModel applies bidirectional semantic expansion:
-
-- For memories: Enriches content with implicit semantics (e.g., "Blade Runner" → genre, themes, related concepts)
-- For queries: Expands with synonyms and related terms (e.g., "AI" → related terminology)
-- Adaptive mode detection: System automatically determines which enrichment strategy to apply
-
-#### Technical Approach
-
-- LLM-powered context injection before embedding
-- Heuristic-based query vs memory detection
-- Maintains semantic coherence while improving recall
-
-#### Business Impact
-
-- 40–60% improvement in retrieval relevance
-- Eliminates terminology mismatch (user says "AI", system finds "machine learning")
-
-### Ingest into the cluster
-
-#### Text ingest (API)
+Submit a text-based memory payload.
 
 #### Payload schema (text)
 
-| Field | Type | Status | Description |
-| --- | --- | --- | --- |
-| `source.type` | String | REQUIRED | Must be `text`. |
-| `source.content` | String | REQUIRED | The text to ingest as a memory. |
-| `userContext` | String | OPTIONAL | Additional context used for enrichment and retrieval. |
+| Field            | Type   | Status   | Description                                                                                            |
+| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------ |
+| `source.type`    | String | REQUIRED | Must be `text`.                                                                                        |
+| `source.content` | String | REQUIRED | The raw text to ingest. This field is parsed for automatic relative date resolution (Shift-Left).      |
+| `userContext`    | String | OPTIONAL | Additional meta-context (e.g., "Slack Message", "Email from CEO") used to guide the enrichment engine. |
 
 <CodeGroup>
+
 ```bash cURL
 curl -X POST "https://api.memorymodel.dev/v1/ingest" \
   -H "Content-Type: application/json" \
@@ -53,6 +48,7 @@ curl -X POST "https://api.memorymodel.dev/v1/ingest" \
     "userContext": "Slack message from Project Manager"
   }'
 ```
+
 
 ```typescript TypeScript
 // npm install @memorymodel/client
@@ -68,6 +64,7 @@ await client.add("The project deadline has been moved to next Friday.", {
 });
 ```
 
+
 ```python Python
 # pip install memory-model
 from memorymodel import MemoryClient
@@ -80,6 +77,7 @@ client = MemoryClient(
 response = client.add("The project deadline has been moved to next Friday.", user_context="Slack message from Project Manager")
 print(response.job_id)
 ```
+
 </CodeGroup>
 
 <Tip>
@@ -95,16 +93,19 @@ print(response.job_id)
 }
 ```
 
-#### Image ingest (API)
+## Image ingest (API)
+
+Submit an image for multimodal processing. The system extracts visual features and semantic context, integrating them into the memory graph alongside text nodes.
 
 #### Payload schema (image)
 
-| Field | Type | Status | Description |
-| --- | --- | --- | --- |
-| `imageData` | String | REQUIRED | Base64-encoded image string (data URI prefix optional). |
-| `userContext` | String | OPTIONAL | Additional context used for enrichment and retrieval. |
+| Field         | Type   | Status   | Description                                                               |
+| ------------- | ------ | -------- | ------------------------------------------------------------------------- |
+| `imageData`   | String | REQUIRED | Base64-encoded image string.                                              |
+| `userContext` | String | OPTIONAL | Context to anchor the visual analysis (e.g., "Screenshot of error logs"). |
 
 <CodeGroup>
+
 ```bash cURL
 curl -X POST "https://api.memorymodel.dev/v1/ingest/image"  \
   -H "Content-Type: application/json" \
@@ -116,12 +117,14 @@ curl -X POST "https://api.memorymodel.dev/v1/ingest/image"  \
   }'
 ```
 
+
 ```typescript TypeScript
 // npm install @memorymodel/client
 await client.addImage("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=", {
   userContext: "Screenshot of the error message"
 });
 ```
+
 
 ```python Python
 # pip install memory-model
@@ -137,6 +140,7 @@ from memorymodel import MemoryClient
 img_b64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
 response = client.add_image(img_b64, user_context="Screenshot of the error message")
 ```
+
 </CodeGroup>
 
 <Note>

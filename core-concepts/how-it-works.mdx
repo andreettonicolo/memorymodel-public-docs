@@ -1,18 +1,54 @@
 ---
 title: "How It Works"
-description: "Operational pipeline of MemoryModel"
+description: "Memory Model is a fully managed cloud platform. This section outlines the system topology and component hierarchy."
 ---
 
+
+## High-Level Architecture
+
 <Frame>
-  <img src="/images/diagrams/how_it_works.webp" alt="Architecture diagram" style={{ borderRadius: '0.5rem', width: '100%', backgroundColor: '#ffffff', padding: '0.5rem' }} />
+  <img
+    src="/images/diagrams/how_it_works.webp"
+    alt="Architecture diagram"
+    style={{ borderRadius:"0.5rem",width:"100%",backgroundColor:"#ffffff",padding:"0.5rem" }}
+  />
 </Frame>
 
-### Key Architectural Principles
+## Architectural Principles
 
-MemoryModel’s architecture follows these principles:
+The system design is governed by five core principles:
 
-- Separation of concerns: Clear boundaries between ingestion, retrieval, and optimization
-- Distributed processing: Asynchronous queues absorb high-volume ingestion without blocking pipelines
-- Dual-write consistency: Keep metadata and vector stores in sync for reliable retrieval
-- Horizontal scalability: Stateless API layer enables automatic scaling across nodes
+1. **Separation of Concerns:** Clear logical boundaries are enforced between ingestion (write), retrieval (read), and optimization (background) processes.
+2. **Distributed Processing:** High-volume ingestion is handled via async queues to absorb load without blocking the retrieval pipeline.
+3. **Dual-Write Consistency:** The system enforces synchronized persistence between the Metadata Store and Vector Database to ensure index integrity.
+4. **Horizontal Scalability:** The API layer is stateless, enabling automatic scaling across nodes.
+5. **Schema Agnosticism:** The architecture supports User-defined memory schemas via the Console without requiring code changes.
 
+## Component Layers
+
+### 1. Management Layer
+
+- **Visual Configuration Console:** A React SPA for zero-code configuration and schema definition.
+- **AI Configuration Wizard:** Automated tool for generating system configurations.
+
+### 2. API Gateway
+
+- **Request Router:** Stateless serverless functions that route traffic to the appropriate engine.
+- **Rate Limiting & Auth:** Managed services handling security and throughput control.
+
+### 3. Processing Engine
+
+- **Ingestion Pipeline:** Async extraction and validation engine.
+- **Adaptive Search Engine:** The core logic for intent detection and strategy routing.
+- **Optimization Workers:** Background processes that handle deduplication, parameter tuning, and centroid calibration.
+
+### 4. Intelligence Layer
+
+- **Cloud AI APIs:** Abstraction layer for LLM integration, pattern detection, and embedding generation.
+- **Semantic Enrichment:** Service responsible for bidirectional context expansion.
+
+### 5. Storage Layer
+
+- **Metadata Store:** NoSQL Database handling ACID transactions and configuration.
+- **Vector Database:** Managed Vector Store for high-performance similarity search.
+- **Analytics Store:** Time-Series Database for recording retrieval telemetry and optimization feedback.

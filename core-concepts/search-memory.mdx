@@ -56,14 +56,15 @@ For request and response examples, see `API: Search Memories` at `/api-reference
 
 #### Payload schema
 
-| Field | Type | Status | Description |
-| --- | --- | --- | --- |
-| `query` | String | REQUIRED | The semantic search query. |
-| `useDynamicScoring` | Boolean | OPTIONAL | Default: `true`. Enables AI re-ranking. |
-| `strategy` | String | OPTIONAL | Options: `simpleVectorSearch`, `directLookupStrategy`, `centroidAwareness`, `entityAnchorStrategy`. |
-| `options.limit` | Number | OPTIONAL | Default: `5`. Max memories to return. |
+| Field               | Type    | Status   | Description                                                                                         |
+| ------------------- | ------- | -------- | --------------------------------------------------------------------------------------------------- |
+| `query`             | String  | REQUIRED | The semantic search query.                                                                          |
+| `useDynamicScoring` | Boolean | OPTIONAL | Default: `true`. Enables AI re-ranking.                                                             |
+| `strategy`          | String  | OPTIONAL | Options: `simpleVectorSearch`, `directLookupStrategy`, `centroidAwareness`, `entityAnchorStrategy`. |
+| `options.limit`     | Number  | OPTIONAL | Default: `5`. Max memories to return.                                                               |
 
 <CodeGroup>
+
 ```bash cURL
 curl -X POST "https://api.memorymodel.dev/v1/search"  \
   -H "Content-Type: application/json" \
@@ -77,6 +78,7 @@ curl -X POST "https://api.memorymodel.dev/v1/search"  \
     }
   }'
 ```
+
 
 ```typescript TypeScript
 // npm install @memorymodel/client
@@ -93,6 +95,7 @@ const results = await client.search("What is the new deadline?", {
 });
 ```
 
+
 ```python Python
 # pip install memory-model
 from memorymodel import MemoryClient
@@ -104,6 +107,7 @@ client = MemoryClient(
 
 results = client.search("What is the new deadline?", limit=3, strategy="centroidAwareness")
 ```
+
 </CodeGroup>
 
 <Tip>
@@ -132,4 +136,3 @@ results = client.search("What is the new deadline?", limit=3, strategy="centroid
   ]
 }
 ```
-
