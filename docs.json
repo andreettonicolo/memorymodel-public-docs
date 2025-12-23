@@ -25,7 +25,7 @@
         ]
       },
       {
-        "group": "Core concepts",
+        "group": "Core concepts & API",
         "pages": [
           "core-concepts/how-it-works",
           "core-concepts/add-memory",
