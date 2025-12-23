@@ -9,14 +9,11 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
+    "groups": [
       {
         "group": "Getting started",
         "pages": [
-          "index",
+          "introduction",
           "quickstart"
         ]
       },
@@ -43,8 +40,6 @@
         "group": "Examples",
         "pages": [
           "examples/agent-integration-examples"
-        ]
-      }
         ]
       }
     ],
