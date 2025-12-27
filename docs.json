@@ -39,7 +39,8 @@
       {
         "group": "Examples",
         "pages": [
-          "examples/agent-integration-examples"
+          "examples/agent-integration-examples",
+          "examples/legal"
         ]
       }
     ],

@@ -45,7 +45,8 @@
       "group": "Development",
       "icon": "terminal",
       "pages": [
-        "examples/agent-integration-examples"
+        "examples/agent-integration-examples",
+        "examples/legal"
       ]
     }
   ]
