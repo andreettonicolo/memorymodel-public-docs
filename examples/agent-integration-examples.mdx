@@ -1,5 +1,5 @@
 ---
-title: "Agent Integration Examples"
+title: "L0 - Agent Integration Examples"
 description: "Micro patterns for memory acquisition and context-aware responses"
 ---
 
@@ -10,6 +10,7 @@ description: "Micro patterns for memory acquisition and context-aware responses"
 Store every user message as a memory for future context retrieval:
 
 <CodeGroup>
+
 ```typescript TypeScript
 // npm install @memorymodel/client
 import { MemoryClient } from '@memorymodel/client';
@@ -36,6 +37,7 @@ async function handleUserMessage(message: string) {
 }
 ```
 
+
 ```python Python
 # pip install memory-model
 import os
@@ -52,6 +54,7 @@ def handle_user_message(message: str) -> str:
     response_text = your_llm.generate(prompt=message)
     return response_text
 ```
+
 </CodeGroup>
 
 ### Example 2: Context-Aware Agent (Search Memory)
@@ -59,6 +62,7 @@ def handle_user_message(message: str) -> str:
 Search relevant memories before generating a response:
 
 <CodeGroup>
+
 ```typescript TypeScript
 // npm install @memorymodel/client
 import { MemoryClient } from '@memorymodel/client';
@@ -91,6 +95,7 @@ async function handleUserQuery(query: string) {
 }
 ```
 
+
 ```python Python
 # pip install memory-model
 import os
@@ -113,6 +118,7 @@ def handle_user_query(query: str) -> str:
 
     return response_text
 ```
+
 </CodeGroup>
 
 ### Example 3: Full Agent Loop (Add Memory + Search Memory)
@@ -120,6 +126,7 @@ def handle_user_query(query: str) -> str:
 Complete pattern for a memory-powered chatbot:
 
 <CodeGroup>
+
 ```typescript TypeScript
 // npm install @memorymodel/client
 import { MemoryClient } from '@memorymodel/client';
@@ -157,6 +164,7 @@ async function agentLoop(userMessage: string) {
 }
 ```
 
+
 ```python Python
 # pip install memory-model
 import os
@@ -188,4 +196,5 @@ def agent_loop(user_message: str) -> str:
 
     return ai_response
 ```
+
 </CodeGroup>

@@ -40,13 +40,11 @@
         "group": "Examples",
         "pages": [
           "examples/agent-integration-examples",
-          "examples/legal"
+          "examples/legal",
+          "examples/customare-care-and-sales-spy-node"
         ]
       }
-    ],
-    "global": {
-      "anchors": []
-    }
+    ]
   },
   "logo": {
     "light": "/logo/logo.svg",
