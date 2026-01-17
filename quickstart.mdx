@@ -100,7 +100,7 @@ Add the memory nodes that best fit your data and retrieval goals. Nodes structur
 </picture>
 
 - In the Model ID, provide three values: provider, model family, and version (for example, `gemini-2.5-flash`).
-- In the Embedding Template, add one realistic example sentence that the node will embed (for example, `My primary care physician advised me to take acetaminophen for my headache.`).
+- In the Embedding Template, define what MemoryModel sees during search. Only the fields included here will be vector indexed. Use Liquid syntax, for example `{{ summary }} - {{ keywords }}`.
 </Step>
  
 <Step title="Create API Key">
